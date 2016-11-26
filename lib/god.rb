@@ -96,6 +96,7 @@ load_contact(:webhook)
 load_contact(:airbrake)
 load_contact(:slack)
 load_contact(:sensu)
+load_contact(:rabbit)
 
 $:.unshift File.join(File.dirname(__FILE__), *%w[.. ext god])
 
