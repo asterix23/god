@@ -30,11 +30,14 @@ module God
           ch = conn.create_channel
 
           @msgQueue = ch.direct(arg(:queue_name))
-          puts("rabbit initialize host = #{arg(:msg_host)}  port = #{arg(:msg_port)} queue = #{arg(:queue_name)}  @msgQueue = #{@msgQueue}")
+          #puts("rabbit initialize host = #{arg(:msg_host)}  port = #{arg(:msg_port)} queue = #{arg(:queue_name)}  @msgQueue = #{@msgQueue}")
         end
       rescue => e
-        puts("!!error in creating message queue: #{e.message}")
-        puts("backtrace: \n #{e.backtrace.join} \n")
+        applog(nil, :info, "failed to send create Rabbit Queue  #{e.message}")
+        applog(nil, :debug, e.backtrace.join("\n"))
+
+        #puts("!!error in creating message queue: #{e.message}")
+        #puts("backtrace: \n #{e.backtrace.join} \n")
       end
 
 
@@ -44,17 +47,17 @@ module God
         valid &= complain("Attribute 'msg_port' must be specified", self) unless arg(:msg_port)
         valid &= complain("Attribute 'queue_name' must be specified", self) unless arg(:queue_name)
 
-        puts ("rabbit valid = #{valid}")
+        #puts ("rabbit valid = #{valid}")
         valid
       end
 
       attr_accessor :msg
 
       def notify(message, time, priority, category, host)
-        puts("in notify - message = #{arg(:msg)}")
+        #puts("in notify - message = #{arg(:msg)}")
 
-        puts("notify: msgQueue = #{@msgQueue}")
-        #@msgQueue.publish(message.to_json)
+        #puts("notify: msgQueue = #{@msgQueue}")
+        @msgQueue.publish(message.to_json)
 
         self.info = "sent message to queue "
       rescue => e
