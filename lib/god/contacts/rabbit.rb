@@ -57,7 +57,7 @@ module God
         #puts("in notify - message = #{arg(:msg)}")
 
         #puts("notify: msgQueue = #{@msgQueue}")
-        @msgQueue.publish(message.to_json)
+        @msgQueue.publish(arg(:msg).to_json)
 
         self.info = "sent message to queue "
       rescue => e
