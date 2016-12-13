@@ -59,7 +59,7 @@ module God
         #puts("notify: msgQueue = #{@msgQueue}")
         @msgQueue.publish(arg(:msg).to_json)
 
-        self.info = "sent message to queue "
+        self.info = "sent message: #{arg(:msg).to_json} to queue: #{@msgQueue}"
       rescue => e
         applog(nil, :info, "failed to send RabbitMQ message to queue  #{e.message}")
         applog(nil, :debug, e.backtrace.join("\n"))
